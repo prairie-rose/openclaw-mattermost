@@ -4,8 +4,19 @@
   "private": true,
   "description": "OpenClaw Mattermost channel plugin",
   "type": "module",
+  "scripts": {
+    "build": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "lint": "oxlint .",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "openclaw": "^2026.2.15"
+  },
   "devDependencies": {
-    "openclaw": "workspace:*"
+    "typescript": "^5.7.0",
+    "vitest": "^3.0.0"
   },
   "openclaw": {
     "extensions": [

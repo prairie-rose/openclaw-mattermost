@@ -3,7 +3,13 @@ import { emptyPluginConfigSchema } from "openclaw/plugin-sdk";
 import { mattermostPlugin } from "./src/channel.js";
 import { setMattermostRuntime } from "./src/runtime.js";
 
-const plugin = {
+const plugin: {
+  id: string;
+  name: string;
+  description: string;
+  configSchema: ReturnType<typeof emptyPluginConfigSchema>;
+  register: (api: OpenClawPluginApi) => void;
+} = {
   id: "mattermost",
   name: "Mattermost",
   description: "Mattermost channel plugin",
