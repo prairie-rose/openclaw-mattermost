@@ -17,6 +17,7 @@ export type MattermostSendOpts = {
   accountId?: string;
   mediaUrl?: string;
   replyToId?: string;
+  props?: Record<string, unknown>;
 };
 
 export type MattermostSendResult = {
@@ -216,6 +217,7 @@ export async function sendMessageMattermost(
     message,
     rootId: opts.replyToId,
     fileIds,
+    props: opts.props,
   });
 
   core.channel.activity.record({
