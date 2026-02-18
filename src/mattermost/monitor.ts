@@ -326,14 +326,16 @@ export async function monitorMattermostProvider(opts: MonitorMattermostOpts = {}
     const out: MattermostMediaInfo[] = [];
     for (const fileId of ids) {
       try {
-        // Only allow private network SSRF for self-hosted instances (localhost/private IPs)
-        const allowPrivate = isPrivateNetworkUrl(client.apiBaseUrl);
+        // Always allow private network for Mattermost file downloads — the URL
+        // is constructed from the configured baseUrl (not user input) and the
+        // bot token authenticates the request. Many self-hosted instances
+        // resolve to private IPs even with public-facing hostnames.
         const fetched = await core.channel.media.fetchRemoteMedia({
           url: `${client.apiBaseUrl}/files/${fileId}`,
           fetchImpl: fetchWithAuth,
           filePathHint: fileId,
           maxBytes: mediaMaxBytes,
-          ...(allowPrivate ? { ssrfPolicy: { allowPrivateNetwork: true } } : {}),
+          ssrfPolicy: { allowPrivateNetwork: true },
         });
         const saved = await core.channel.media.saveMediaBuffer(
           fetched.buffer,
